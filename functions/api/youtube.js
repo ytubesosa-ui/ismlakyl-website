@@ -1,8 +1,7 @@
 
 export async function onRequestGet(context) {
   const apiKey = context.env.YOUTUBE_API_KEY;
-  const channelId = "UC4OyKXs92jrA7uXbsSqmMyQ";
-
+const channelId = "UC40YkXs92jrA7uXbsSqmMyQ";
   if (!apiKey) {
     return Response.json(
       { error: "API key missing" },
