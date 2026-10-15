@@ -25,7 +25,7 @@ export async function onRequestGet(context) {
     if (!response.ok) {
       throw new Error(JSON.stringify(data.error || data));
     }
-
+console.log("YouTube API response:", JSON.stringify(data));
     const videos = (data.items || []).map(item => ({
       id: item.id.videoId,
       title: item.snippet.title,
