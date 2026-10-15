@@ -11745,3 +11745,20 @@ header .btn:hover {
 
 
 
+/* YouTube video hover animation */
+.youtube-video-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.youtube-video-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22) !important;
+}
+
+.youtube-video-card img {
+    transition: transform 0.3s ease;
+}
+
+.youtube-video-card:hover img {
+    transform: scale(1.04);
+}
