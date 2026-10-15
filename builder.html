@@ -114,17 +114,40 @@ function formatHeight(inches) {
     return `${feet}'${remaining}"`;
 }
 
-// Tüm boy seçenekleri için başlangıç listesi
-for (let inches = 69; inches <= 88; inches++) {
-    const option = document.createElement("option");
-    option.value = inches;
-    option.textContent = formatHeight(inches);
-    heightSelect.appendChild(option);
+
+
+const positionSelect = document.getElementById("position");
+
+// Geçici boy sınırları
+const heightLimits = {
+    PG: [69, 79],
+    SG: [69, 81],
+    SF: [71, 83],
+    PF: [73, 86],
+    C: [79, 88]
+};
+
+function updateHeights() {
+    const [minHeight, maxHeight] = heightLimits[positionSelect.value];
+
+    heightSelect.innerHTML = "";
+
+    for (let inches = minHeight; inches <= maxHeight; inches++) {
+        const option = document.createElement("option");
+        option.value = inches;
+        option.textContent = formatHeight(inches);
+        heightSelect.appendChild(option);
+    }
+
+    updateWingspan();
+    updateWeight();
 }
 
-const wingspanSelect = document.getElementById("wingspan");
+positionSelect.addEventListener("change", updateHeights);
 
+const wingspanSelect = document.getElementById("wingspan");
 function updateWingspan() {
+
     const height = Number(heightSelect.value);
 
     wingspanSelect.innerHTML = "";
@@ -158,8 +181,7 @@ function updateWeight() {
 }
 
 heightSelect.addEventListener("change", updateWeight);
-updateWeight();
-
+updateHeights();
 </script>
 
 </body>
