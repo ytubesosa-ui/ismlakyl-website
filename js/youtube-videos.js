@@ -21,8 +21,7 @@ const response = await fetch("/api/youtube");
       column.className = "col-md-4";
 
       const card = document.createElement("div");
-      card.className = "card shadow border-0 rounded-4 h-100 overflow-hidden";
-
+card.className = "card shadow border-0 rounded-4 h-100 overflow-hidden youtube-video-card";
       const link = document.createElement("a");
       link.href = `https://www.youtube.com/watch?v=${video.id}`;
       link.target = "_blank";
