@@ -56,6 +56,35 @@
             <p>NBA 2K27 MyPLAYER Builder</p>
         </header>
 
+       
+<section class="builder-panel" style="margin-bottom:20px;">
+    <h2>MYPLAYER SETTINGS</h2>
+
+    <div style="display:flex;flex-wrap:wrap;gap:20px;">
+        <label>Position
+            <select id="position">
+                <option>PG</option>
+                <option>SG</option>
+                <option>SF</option>
+                <option>PF</option>
+                <option>C</option>
+            </select>
+        </label>
+
+        <label>Height
+            <select id="height"></select>
+        </label>
+
+        <label>Weight (lbs)
+            <select id="weight"></select>
+        </label>
+
+        <label>Wingspan
+            <select id="wingspan"></select>
+        </label>
+    </div>
+</section>
+
         <div class="builder-grid">
             <section class="builder-panel">
                 <h2>PLAYER ATTRIBUTES</h2>
@@ -75,5 +104,63 @@
             </section>
         </div>
     </main>
+
+<script>
+const heightSelect = document.getElementById("height");
+
+function formatHeight(inches) {
+    const feet = Math.floor(inches / 12);
+    const remaining = inches % 12;
+    return `${feet}'${remaining}"`;
+}
+
+// Tüm boy seçenekleri için başlangıç listesi
+for (let inches = 69; inches <= 88; inches++) {
+    const option = document.createElement("option");
+    option.value = inches;
+    option.textContent = formatHeight(inches);
+    heightSelect.appendChild(option);
+}
+
+const wingspanSelect = document.getElementById("wingspan");
+
+function updateWingspan() {
+    const height = Number(heightSelect.value);
+
+    wingspanSelect.innerHTML = "";
+
+    // Geçici aralık: boydan 6 inç fazlasına kadar
+    for (let inches = height; inches <= height + 6; inches++) {
+        const option = document.createElement("option");
+        option.value = inches;
+        option.textContent = formatHeight(inches);
+        wingspanSelect.appendChild(option);
+    }
+}
+
+heightSelect.addEventListener("change", updateWingspan);
+updateWingspan();
+
+
+const weightSelect = document.getElementById("weight");
+
+function updateWeight() {
+    weightSelect.innerHTML = "";
+
+    // Geçici değerler; gerçek NBA 2K27 sınırları
+    // doğrulandıktan sonra güncellenecek.
+    for (let lbs = 150; lbs <= 300; lbs++) {
+        const option = document.createElement("option");
+        option.value = lbs;
+        option.textContent = `${lbs} lbs`;
+        weightSelect.appendChild(option);
+    }
+}
+
+heightSelect.addEventListener("change", updateWeight);
+updateWeight();
+
+</script>
+
 </body>
 </html>
