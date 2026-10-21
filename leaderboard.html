@@ -160,7 +160,8 @@ main.container {
 
         const rank = document.createElement("span");
         rank.className = "rank";
-        rank.textContent = index + 1;
+
+rank.textContent = ["🥇", "🥈", "🥉"][index] || index + 1;
 
         const avatar = document.createElement("img");
         avatar.src = user.avatar || "";
