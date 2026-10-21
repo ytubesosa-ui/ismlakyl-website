@@ -32,78 +32,101 @@ if (pageToken) videoUrl.searchParams.set("pageToken", pageToken);
     let scannedComments = 0;
     const pendingComments = [];
 
-    for (const video of videoData.items || []) {
-      const videoId = video.id?.videoId;
-      if (!videoId) continue;
+  
+for (const video of videoData.items || []) {
+  const videoId = video.id?.videoId;
+  if (!videoId) continue;
 
-      const commentUrl = new URL(
-        "https://www.googleapis.com/youtube/v3/commentThreads"
-      );
-      commentUrl.searchParams.set("part", "snippet");
-      commentUrl.searchParams.set("videoId", videoId);
-      commentUrl.searchParams.set("maxResults", "100");
-      commentUrl.searchParams.set("textFormat", "plainText");
-      commentUrl.searchParams.set("key", apiKey);
+  let commentPageToken = null;
 
-      const response = await fetch(commentUrl);
-      const data = await response.json();
+  do {
+    const commentUrl = new URL(
+      "https://www.googleapis.com/youtube/v3/commentThreads"
+    );
 
-      if (!response.ok) {
-        if (data.error?.errors?.some(e => e.reason === "commentsDisabled")) {
-          continue;
-        }
-        throw new Error(data.error?.message || "Comments API error");
+    commentUrl.searchParams.set("part", "snippet");
+    commentUrl.searchParams.set("videoId", videoId);
+    commentUrl.searchParams.set("maxResults", "100");
+    commentUrl.searchParams.set("textFormat", "plainText");
+    commentUrl.searchParams.set("key", apiKey);
+
+    if (commentPageToken) {
+      commentUrl.searchParams.set("pageToken", commentPageToken);
+    }
+
+    const response = await fetch(commentUrl);
+    const data = await response.json();
+
+    if (!response.ok) {
+      if (
+        data.error?.errors?.some(
+          e => e.reason === "commentsDisabled"
+        )
+      ) {
+        break;
       }
 
-      for (const thread of data.items || []) {
-        const comment = thread.snippet?.topLevelComment?.snippet;
-        const authorId = comment?.authorChannelId?.value;
+      throw new Error(
+        data.error?.message || "Comments API error"
+      );
+    }
 
-        if (!authorId) continue;
-        if (authorId === channelId) continue;
+    for (const thread of data.items || []) {
+      const comment = thread.snippet?.topLevelComment?.snippet;
+      const authorId = comment?.authorChannelId?.value;
 
-        const current = counts.get(authorId) || {
+      if (!authorId || authorId === channelId) continue;
+
+      const current = counts.get(authorId) || {
+        name: comment.authorDisplayName,
+        avatar: comment.authorProfileImageUrl,
+        channelId: authorId,
+        comments: 0
+      };
+
+      current.comments++;
+      counts.set(authorId, current);
+
+      if (comment.publishedAt?.slice(0, 7) === currentMonth) {
+        const monthlyCurrent = monthlyCounts.get(authorId) || {
           name: comment.authorDisplayName,
           avatar: comment.authorProfileImageUrl,
           channelId: authorId,
           comments: 0
         };
 
-        current.comments++;
-        counts.set(authorId, current);
-        if (comment.publishedAt?.slice(0, 7) === currentMonth) {
-    const monthlyCurrent = monthlyCounts.get(authorId) || {
-        name: comment.authorDisplayName,
-        avatar: comment.authorProfileImageUrl,
-        channelId: authorId,
-        comments: 0
-    };
+        monthlyCurrent.comments++;
+        monthlyCounts.set(authorId, monthlyCurrent);
+      }
 
-    monthlyCurrent.comments++;
-    monthlyCounts.set(authorId, monthlyCurrent);
-}
-        
+      pendingComments.push(
+        context.env.DB.prepare(
+          `INSERT OR IGNORE INTO youtube_comments
+          (comment_id, author_id, author_name, avatar, published_at, video_id)
+          VALUES (?, ?, ?, ?, ?, ?)`
+        ).bind(
+          thread.id,
+          authorId,
+          comment.authorDisplayName,
+          comment.authorProfileImageUrl,
+          comment.publishedAt,
+          videoId
+        )
+      );
 
-pendingComments.push(
-  context.env.DB.prepare(
-    `INSERT OR IGNORE INTO youtube_comments
-    (comment_id, author_id, author_name, avatar, published_at, video_id)
-    VALUES (?, ?, ?, ?, ?, ?)`
-  ).bind(
-    thread.id,
-    authorId,
-    comment.authorDisplayName,
-    comment.authorProfileImageUrl,
-    comment.publishedAt,
-    videoId
-  )
-);
-        if (pendingComments.length >= 100) {
-  await context.env.DB.batch(pendingComments.splice(0));
-}
-        scannedComments++;
+      scannedComments++;
+
+      if (pendingComments.length >= 100) {
+        await context.env.DB.batch(
+          pendingComments.splice(0, 100)
+        );
       }
     }
+
+    commentPageToken = data.nextPageToken || null;
+  } while (commentPageToken);
+}
+
     
     if (pendingComments.length > 0) {
   await context.env.DB.batch(pendingComments);
