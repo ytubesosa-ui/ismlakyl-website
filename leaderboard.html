@@ -203,18 +203,44 @@ rank.textContent = ["🥇", "🥈", "🥉"][index] || index + 1;
       if (data) render();
     };
 
-    fetch("/api/comments")
-      .then(response => {
-        if (!response.ok) throw new Error("API hatası");
-        return response.json();
-      })
-      .then(result => {
-        data = result;
+    
+    (async () => {
+      try {
+        let pageToken = null;
+        let result;
+        let pages = 0;
+
+        do {
+          const url = pageToken
+            ? `/api/comments?pageToken=${encodeURIComponent(pageToken)}`
+            : "/api/comments";
+
+          const response = await fetch(url);
+
+          if (!response.ok) {
+            throw new Error("API hatası");
+          }
+
+          result = await response.json();
+
+          if (result.error) {
+            throw new Error(result.error);
+          }
+
+          data = result;
+          pages++;
+
+          status.textContent = `Yorumlar taranıyor... (${pages} sayfa)`;
+          pageToken = result.nextPageToken;
+        } while (pageToken);
+
         render();
-      })
-      .catch(() => {
-        status.textContent = "Sıralama yüklenemedi.";
-      });
+        status.textContent = "Sıralama güncellendi.";
+      } catch (error) {
+        status.textContent = "Sıralama yüklenemedi: " + error.message;
+      }
+    })();
+
   </script>
   
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
