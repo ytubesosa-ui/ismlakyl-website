@@ -14,7 +14,7 @@ export async function onRequestGet(context) {
     videoUrl.searchParams.set("channelId", channelId);
     videoUrl.searchParams.set("type", "video");
     videoUrl.searchParams.set("order", "date");
-    videoUrl.searchParams.set("maxResults", "5");
+    videoUrl.searchParams.set("maxResults", "40");
     const pageToken = new URL(context.request.url).searchParams.get("pageToken");
 if (pageToken) videoUrl.searchParams.set("pageToken", pageToken);
     videoUrl.searchParams.set("key", apiKey);
@@ -98,6 +98,9 @@ pendingComments.push(
     videoId
   )
 );
+        if (pendingComments.length >= 100) {
+  await context.env.DB.batch(pendingComments.splice(0));
+}
         scannedComments++;
       }
     }
