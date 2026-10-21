@@ -96,11 +96,38 @@ await context.env.DB.prepare(
         scannedComments++;
       }
     }
-const monthlyLeaderboard = [...monthlyCounts.values()]
-    .sort((a, b) => b.comments - a.comments)
+    const savedComments = await context.env.DB.prepare(
+  "SELECT author_id, author_name, avatar, published_at FROM youtube_comments"
+).all();
+    const dbCounts = new Map();
+const dbMonthlyCounts = new Map();
+
+for (const comment of savedComments.results) {
+  const authorId = comment.author_id;
+
+  const user = dbCounts.get(authorId) || {
+    name: comment.author_name,
+    avatar: comment.avatar,
+    channelId: authorId,
+    comments: 0
+  };
+  user.comments++;
+  dbCounts.set(authorId, user);
+
+  if (comment.published_at?.slice(0, 7) === currentMonth) {
+    const monthlyUser = dbMonthlyCounts.get(authorId) || {
+      name: comment.author_name,
+      avatar: comment.avatar,
+      channelId: authorId,
+      comments: 0
+    };
+    monthlyUser.comments++;
+    dbMonthlyCounts.set(authorId, monthlyUser);
+  }
+}
+const monthlyLeaderboard = [...dbMonthlyCounts.values()]    .sort((a, b) => b.comments - a.comments)
     .slice(0, 20);
-    const leaderboard = [...counts.values()]
-      .sort((a, b) => b.comments - a.comments)
+const leaderboard = [...dbCounts.values()]      .sort((a, b) => b.comments - a.comments)
       .slice(0, 20);
 
     return Response.json({
