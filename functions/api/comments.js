@@ -24,7 +24,9 @@ export async function onRequestGet(context) {
       throw new Error(videoData.error?.message || "Video API error");
     }
 
-    const counts = new Map();
+    const counts = new Map();   
+    const monthlyCounts = new Map();
+    const currentMonth = new Date().toISOString().slice(0, 7);
     let scannedComments = 0;
 
     for (const video of videoData.items || []) {
@@ -69,13 +71,16 @@ export async function onRequestGet(context) {
         scannedComments++;
       }
     }
-
+const monthlyLeaderboard = [...monthlyCounts.values()]
+    .sort((a, b) => b.comments - a.comments)
+    .slice(0, 20);
     const leaderboard = [...counts.values()]
       .sort((a, b) => b.comments - a.comments)
       .slice(0, 20);
 
     return Response.json({
       leaderboard,
+      monthlyLeaderboard,
       scannedComments,
       note: "Test: son 5 videonun en fazla 100 ana yorumu"
     }, {
