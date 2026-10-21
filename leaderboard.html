@@ -212,8 +212,8 @@ rank.textContent = ["🥇", "🥈", "🥉"][index] || index + 1;
 
         do {
           const url = pageToken
-            ? `/api/comments?pageToken=${encodeURIComponent(pageToken)}`
-            : "/api/comments";
+            ? `/api/leaderboard?pageToken=${encodeURIComponent(pageToken)}`
+            : "/api/leaderboard";
 
           const response = await fetch(url);
 
