@@ -79,6 +79,20 @@ export async function onRequestGet(context) {
     monthlyCurrent.comments++;
     monthlyCounts.set(authorId, monthlyCurrent);
 }
+        
+await context.env.DB.prepare(
+  `INSERT OR IGNORE INTO youtube_comments
+  (comment_id, author_id, author_name, avatar, published_at, video_id)
+  VALUES (?, ?, ?, ?, ?, ?)`
+).bind(
+  thread.id,
+  authorId,
+  comment.authorDisplayName,
+  comment.authorProfileImageUrl,
+  comment.publishedAt,
+  videoId
+).run();
+
         scannedComments++;
       }
     }
