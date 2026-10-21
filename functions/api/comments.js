@@ -68,6 +68,17 @@ export async function onRequestGet(context) {
 
         current.comments++;
         counts.set(authorId, current);
+        if (comment.publishedAt?.slice(0, 7) === currentMonth) {
+    const monthlyCurrent = monthlyCounts.get(authorId) || {
+        name: comment.authorDisplayName,
+        avatar: comment.authorProfileImageUrl,
+        channelId: authorId,
+        comments: 0
+    };
+
+    monthlyCurrent.comments++;
+    monthlyCounts.set(authorId, monthlyCurrent);
+}
         scannedComments++;
       }
     }
