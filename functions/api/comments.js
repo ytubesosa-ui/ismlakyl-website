@@ -150,8 +150,7 @@ const leaderboard = [...dbCounts.values()]      .sort((a, b) => b.comments - a.c
       nextPageToken: videoData.nextPageToken || null,
       note: "Her istekte en fazla 50 video taranır. Yorumlar D1 veritabanına kaydedilir."
     }, {
-      headers: { "Cache-Control": "public, max-age=3600" }
-    });
+headers: { "Cache-Control": "no-store" }    });
 
   } catch (error) {
     return Response.json(
