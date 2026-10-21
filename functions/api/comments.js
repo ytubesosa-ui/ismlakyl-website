@@ -14,7 +14,9 @@ export async function onRequestGet(context) {
     videoUrl.searchParams.set("channelId", channelId);
     videoUrl.searchParams.set("type", "video");
     videoUrl.searchParams.set("order", "date");
-    videoUrl.searchParams.set("maxResults", "5");
+    videoUrl.searchParams.set("maxResults", "50");
+    const pageToken = new URL(context.request.url).searchParams.get("pageToken");
+if (pageToken) videoUrl.searchParams.set("pageToken", pageToken);
     videoUrl.searchParams.set("key", apiKey);
 
     const videoResponse = await fetch(videoUrl);
@@ -134,7 +136,8 @@ const leaderboard = [...dbCounts.values()]      .sort((a, b) => b.comments - a.c
       leaderboard,
       monthlyLeaderboard,
       scannedComments,
-      note: "Test: son 5 videonun en fazla 100 ana yorumu"
+      nextPageToken: videoData.nextPageToken || null,
+      note: "Her istekte en fazla 50 video taranır. Yorumlar D1 veritabanına kaydedilir."
     }, {
       headers: { "Cache-Control": "public, max-age=3600" }
     });
