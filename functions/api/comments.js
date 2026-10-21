@@ -30,6 +30,7 @@ if (pageToken) videoUrl.searchParams.set("pageToken", pageToken);
     const monthlyCounts = new Map();
     const currentMonth = new Date().toISOString().slice(0, 7);
     let scannedComments = 0;
+    const pendingComments = [];
 
     for (const video of videoData.items || []) {
       const videoId = video.id?.videoId;
@@ -83,10 +84,28 @@ if (pageToken) videoUrl.searchParams.set("pageToken", pageToken);
 }
         
 
-
+pendingComments.push(
+  context.env.DB.prepare(
+    `INSERT OR IGNORE INTO youtube_comments
+    (comment_id, author_id, author_name, avatar, published_at, video_id)
+    VALUES (?, ?, ?, ?, ?, ?)`
+  ).bind(
+    thread.id,
+    authorId,
+    comment.authorDisplayName,
+    comment.authorProfileImageUrl,
+    comment.publishedAt,
+    videoId
+  )
+);
         scannedComments++;
       }
     }
+    
+    if (pendingComments.length > 0) {
+  await context.env.DB.batch(pendingComments);
+}
+    
     const savedComments = await context.env.DB.prepare(
   "SELECT author_id, author_name, avatar, published_at FROM youtube_comments"
 ).all();
