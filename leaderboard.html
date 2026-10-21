@@ -1,1 +1,185 @@
 
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yorum Liderleri | ISML AKYL</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body {
+      background: #10151e;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    .container {
+      max-width: 850px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+    h1 { text-align: center; }
+    .subtitle {
+      text-align: center;
+      color: #aab4c4;
+    }
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0;
+    }
+    .tabs button {
+      flex: 1;
+      padding: 14px;
+      background: #243044;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .tabs button.active { background: #dc3545; }
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: #1b2635;
+      border-radius: 10px;
+    }
+    .rank {
+      width: 35px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .person img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+    .name {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .name a {
+      color: white;
+      text-decoration: none;
+    }
+    .count {
+      font-weight: bold;
+      color: #ff6565;
+      white-space: nowrap;
+    }
+    #status {
+      text-align: center;
+      color: #aab4c4;
+    }
+    .notice {
+      color: #aab4c4;
+      font-size: 13px;
+      text-align: center;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>🏆 YORUM LİDERLERİ</h1>
+    <p class="subtitle">ISML AKYL YouTube topluluğu</p>
+
+    <div class="tabs">
+      <button id="monthly" class="active">📅 Bu Ay</button>
+      <button id="alltime">🏆 Genel Sıralama</button>
+    </div>
+
+    <p id="status">Yorumlar yükleniyor...</p>
+    <div id="leaderboard"></div>
+
+    <p class="notice">
+      Test sürümü: Şimdilik son 5 videodaki
+      yorumlar hesaplanmaktadır.
+    </p>
+  </main>
+
+  <script>
+    let data = null;
+    let selected = "monthlyLeaderboard";
+
+    const list = document.getElementById("leaderboard");
+    const status = document.getElementById("status");
+    const monthly = document.getElementById("monthly");
+    const alltime = document.getElementById("alltime");
+
+    function render() {
+      list.replaceChildren();
+
+      const users = data?.[selected] || [];
+
+      status.textContent = users.length
+        ? ""
+        : "Henüz bu sıralamada yorum bulunamadı.";
+
+      users.forEach((user, index) => {
+        const row = document.createElement("div");
+        row.className = "person";
+
+        const rank = document.createElement("span");
+        rank.className = "rank";
+        rank.textContent = index + 1;
+
+        const avatar = document.createElement("img");
+        avatar.src = user.avatar || "";
+        avatar.alt = "";
+
+        const name = document.createElement("div");
+        name.className = "name";
+
+        const link = document.createElement("a");
+        link.textContent = user.name || "YouTube kullanıcısı";
+        if (user.channelId) {
+          link.href = "https://www.youtube.com/channel/" +
+            encodeURIComponent(user.channelId);
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        }
+        name.appendChild(link);
+
+        const count = document.createElement("span");
+        count.className = "count";
+        count.textContent = user.comments + " yorum";
+
+        row.append(rank, avatar, name, count);
+        list.appendChild(row);
+      });
+    }
+
+    monthly.onclick = () => {
+      selected = "monthlyLeaderboard";
+      monthly.classList.add("active");
+      alltime.classList.remove("active");
+      if (data) render();
+    };
+
+    alltime.onclick = () => {
+      selected = "leaderboard";
+      alltime.classList.add("active");
+      monthly.classList.remove("active");
+      if (data) render();
+    };
+
+    fetch("/api/comments")
+      .then(response => {
+        if (!response.ok) throw new Error("API hatası");
+        return response.json();
+      })
+      .then(result => {
+        data = result;
+        render();
+      })
+      .catch(() => {
+        status.textContent = "Sıralama yüklenemedi.";
+      });
+  </script>
+</body>
+</html>
