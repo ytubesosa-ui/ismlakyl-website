@@ -14,7 +14,7 @@ export async function onRequestGet(context) {
     videoUrl.searchParams.set("channelId", channelId);
     videoUrl.searchParams.set("type", "video");
     videoUrl.searchParams.set("order", "date");
-    videoUrl.searchParams.set("maxResults", "50");
+    videoUrl.searchParams.set("maxResults", "5");
     const pageToken = new URL(context.request.url).searchParams.get("pageToken");
 if (pageToken) videoUrl.searchParams.set("pageToken", pageToken);
     videoUrl.searchParams.set("key", apiKey);
