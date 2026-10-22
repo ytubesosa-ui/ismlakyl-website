@@ -1,5 +1,7 @@
 
 export async function onRequestGet(context) {
+
+  
   try {
     const db = context.env.DB;
 
