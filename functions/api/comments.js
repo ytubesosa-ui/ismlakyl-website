@@ -132,7 +132,7 @@ for (const video of videoData.items || []) {
   await context.env.DB.batch(pendingComments);
 }
     
-    const savedComments = await context.env.DB.prepare(
+    
   const videoIds = (videoData.items || [])
   .map(video => video.id?.videoId)
   .filter(Boolean);
