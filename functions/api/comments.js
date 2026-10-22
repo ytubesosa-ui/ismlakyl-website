@@ -133,8 +133,17 @@ for (const video of videoData.items || []) {
 }
     
     const savedComments = await context.env.DB.prepare(
-  "SELECT author_id, author_name, avatar, published_at FROM youtube_comments"
-).all();
+  const videoIds = (videoData.items || [])
+  .map(video => video.id?.videoId)
+  .filter(Boolean);
+
+const savedComments = videoIds.length > 0
+  ? await context.env.DB.prepare(
+      `SELECT author_id, author_name, avatar, published_at
+       FROM youtube_comments
+       WHERE video_id IN (${videoIds.map(() => "?").join(",")})`
+    ).bind(...videoIds).all()
+  : { results: [] };
     const dbCounts = new Map();
 const dbMonthlyCounts = new Map();
 
