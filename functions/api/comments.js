@@ -170,7 +170,7 @@ const leaderboard = [...dbCounts.values()]      .sort((a, b) => b.comments - a.c
       leaderboard,
       monthlyLeaderboard,
       scannedComments,
-      nextPageToken: videoData.nextPageToken || null,
+      nextPageToken: null,
       note: "Her istekte en fazla 50 video taranır. Yorumlar D1 veritabanına kaydedilir."
     }, {
 headers: { "Cache-Control": "no-store" }    });
