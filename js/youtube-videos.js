@@ -45,6 +45,11 @@ title.className = "video-title";
 title.style.fontSize = "16px";
 title.style.fontWeight = "700";
 title.style.lineHeight = "1.4";
+		title.style.display = "-webkit-box";
+title.style.webkitBoxOrient = "vertical";
+title.style.webkitLineClamp = "2";
+title.style.overflow = "hidden";
+title.style.minHeight = "45px";
 title.style.marginBottom = "15px";
 
       const button = document.createElement("a");
