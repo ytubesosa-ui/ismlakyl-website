@@ -41,7 +41,28 @@
     .notice { color: #69758a; font-size: 13px; text-align: center; margin-top: 25px; }
     @media (max-width: 600px) {
       main.leaderboard-page { margin-top: 35px; padding: 0 12px; }
-      .podium { gap: 7px; }
+      .podium {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.champion.first {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  width: 100%;
+  max-width: 320px;
+  justify-self: center;
+}
+
+.champion.second {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.champion.third {
+  grid-column: 2;
+  grid-row: 2;
+}
       .champion { border-radius: 13px; padding: 15px 5px; }
       .champion.first { padding: 20px 5px; }
       .champion img { width: 48px; height: 48px; }
