@@ -56,6 +56,15 @@
             footer .small { font-size: 12px; text-align: center; }
           }
         </style>
+		<style>
+@media (max-width: 991.98px) {
+  body:has(.navbar-collapse.show) main,
+  body:has(.navbar-collapse.show) header,
+  body:has(.navbar-collapse.show) footer {
+    display: none !important;
+  }
+}
+</style>
     </head>
     <body class="d-flex flex-column h-100">
         <main class="flex-shrink-0">
