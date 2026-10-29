@@ -37,6 +37,13 @@ img.style.objectFit = "cover";
 
       const body = document.createElement("div");
       body.className = "card-body text-center";
+		const title = document.createElement("h3");
+title.textContent = video.title || "ISML AKYL Videosu";
+title.className = "video-title";
+title.style.fontSize = "16px";
+title.style.fontWeight = "700";
+title.style.lineHeight = "1.4";
+title.style.marginBottom = "15px";
 
       const button = document.createElement("a");
       button.href = link.href;
@@ -46,6 +53,7 @@ img.style.objectFit = "cover";
       button.textContent = "WATCH VIDEO";
 
       link.appendChild(img);
+		body.appendChild(title);
       body.appendChild(button);
       card.append(link, body);
       column.appendChild(card);
