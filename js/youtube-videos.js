@@ -31,6 +31,8 @@ card.className = "card shadow border-0 rounded-4 h-100 overflow-hidden youtube-v
       img.src = video.thumbnail;
       img.alt = video.title || "ISML AKYL YouTube Video";
       img.className = "card-img-top";
+		img.style.aspectRatio = "16 / 9";
+img.style.objectFit = "cover";
       img.loading = "lazy";
 
       const body = document.createElement("div");
