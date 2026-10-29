@@ -144,14 +144,13 @@ async function checkKickLive() {
     const status = document.getElementById("kick-live-status");
 
     try {
-        const response = await fetch("/.netlify/functions/kick-live");
+        const response = await fetch("/api/kick-live");
         if (!response.ok) throw new Error("API error");
 
         const result = await response.json();
-        const channel = result.data?.[0];
+        const channel = result;
 
-        if (channel?.stream?.is_live === true) {
-            status.innerHTML = '<span class="badge bg-danger">🔴 LIVE NOW</span>';
+if (channel?.live === true) {            status.innerHTML = '<span class="badge bg-danger">🔴 LIVE NOW</span>';
         } else {
             status.innerHTML = '<span class="badge bg-secondary">OFFLINE</span>';
         }
