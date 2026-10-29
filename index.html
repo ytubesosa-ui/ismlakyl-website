@@ -248,6 +248,37 @@ class="btn btn-danger fw-bolder"       style="width:145px; padding:15px 5px; whi
                     </div>
                 </div>
             </header>
+			
+<!-- YouTube Statistics -->
+<section id="youtube-stats" class="py-4 bg-white">
+  <div class="container px-4">
+    <h2 class="text-center fw-bolder mb-4">
+      <span class="text-gradient d-inline">YouTube İstatistikleri</span>
+    </h2>
+
+    <div class="row g-3 text-center justify-content-center">
+      <div class="col-4">
+        <div class="bg-light rounded-4 p-3 h-100">
+          <div class="fw-bolder fs-3 text-primary" id="stat-subs">—</div>
+          <div class="small text-muted">Abone</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="bg-light rounded-4 p-3 h-100">
+          <div class="fw-bolder fs-3 text-primary" id="stat-views">—</div>
+          <div class="small text-muted">İzlenme</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="bg-light rounded-4 p-3 h-100">
+          <div class="fw-bolder fs-3 text-primary" id="stat-videos">—</div>
+          <div class="small text-muted">Video</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
             <!-- About Section-->
 <section id="about" class="bg-light py-5">                <div class="container px-5">
                     <div class="row gx-5 justify-content-center">
@@ -309,6 +340,37 @@ class="btn btn-danger fw-bolder"       style="width:145px; padding:15px 5px; whi
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+		
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const response = await fetch("/api/stats");
+
+    if (!response.ok) {
+      throw new Error("İstatistikler yüklenemedi");
+    }
+
+    const stats = await response.json();
+    const format = number =>
+      new Intl.NumberFormat("tr-TR").format(number);
+
+    document.getElementById("stat-subs").textContent =
+      stats.subscribers === null
+        ? "Gizli"
+        : format(stats.subscribers);
+
+    document.getElementById("stat-views").textContent =
+      format(stats.views);
+
+    document.getElementById("stat-videos").textContent =
+      format(stats.videos);
+
+  } catch (error) {
+    console.error("YouTube istatistik hatası:", error);
+  }
+});
+</script>
+
     </body>
 </html>
 
