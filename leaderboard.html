@@ -1,110 +1,66 @@
-
 <!DOCTYPE html>
 <html lang="tr">
-  
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yorum Liderleri | ISML AKYL</title>
   <link rel="stylesheet" href="css/styles.css">
-      <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-
-   body {
-  background: #10151e;
-  font-family: "Plus Jakarta Sans", sans-serif;
-  margin: 0;
-}
-main.container { 
-  max-width: 850px;
-      margin: 60px auto;
-      padding: 20px;
-    }
-    h1 { text-align: center; }
-    .subtitle {
-      text-align: center;
-      color: #aab4c4;
-    }
-    .tabs {
-      display: flex;
-      gap: 12px;
-      margin: 30px 0;
-    }
-    .tabs button {
-      flex: 1;
-      padding: 14px;
-      background: #243044;
-      color: white;
-      border: 0;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .tabs button.active { background: #dc3545; }
-    .person {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 15px;
-      margin-bottom: 10px;
-      background: #1b2635;
-      border-radius: 10px;
-    }
-   
-.rank {
-  width: 35px;
-  font-weight: bold;
-  font-size: 20px;
-  color: #ffffff;
-}
-
-    .person img {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-    }
-    .name {
-      flex: 1;
-      min-width: 0;
-      overflow-wrap: anywhere;
-    }
-    .name a {
-      color: white;
-      text-decoration: none;
-    }
-    .count {
-      font-weight: bold;
-      color: #ff6565;
-      white-space: nowrap;
-    }
-    #status {
-      text-align: center;
-      color: #aab4c4;
-    }
-    .notice {
-      color: #aab4c4;
-      font-size: 13px;
-      text-align: center;
-      margin-top: 25px;
+    body { margin: 0; background: #f5f7fb; color: #182235; font-family: 'Plus Jakarta Sans', sans-serif; }
+    main.leaderboard-page { max-width: 960px; margin: 55px auto 80px; padding: 0 20px; }
+    .page-title { text-align: center; font-weight: 800; color: #182235; letter-spacing: -.035em; }
+    .subtitle { text-align: center; color: #69758a; margin-bottom: 28px; }
+    .tabs { display: flex; gap: 12px; margin: 30px auto; max-width: 580px; }
+    .tabs button { flex: 1; padding: 14px 12px; background: #fff; color: #253348; border: 1px solid #dce2ea; border-radius: 12px; font-weight: 800; cursor: pointer; transition: .2s; }
+    .tabs button.active { background: #dc3545; border-color: #dc3545; color: #fff; box-shadow: 0 6px 20px #dc35452b; }
+    #status { min-height: 25px; text-align: center; color: #69758a; font-size: 13px; }
+    .podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: end; gap: 14px; margin: 24px 0 30px; }
+    .champion { background: #192538; border-radius: 20px; padding: 23px 12px 20px; text-align: center; color: #fff; min-width: 0; border: 2px solid transparent; box-shadow: 0 12px 24px #1a273515; }
+    .champion.first { background: linear-gradient(160deg,#28334b,#141e2e); border-color: #dfb55b; padding-top: 30px; padding-bottom: 28px; }
+    .champion.second { border-color: #a9b9ce; }
+    .champion.third { border-color: #b88b6c; }
+    .champion .medal { font-size: 31px; line-height: 1.2; }
+    .champion .position { font-size: 11px; font-weight: 800; letter-spacing: .12em; color: #bdc8d8; margin: 8px 0 13px; }
+    .champion.first .position { color: #f2cf81; }
+    .champion img { width: 66px; height: 66px; border-radius: 50%; border: 3px solid #fff; object-fit: cover; background: #344156; }
+    .champion.first img { width: 83px; height: 83px; border-color: #e9bf68; }
+    .champion .username { display: block; color: #fff; font-weight: 800; font-size: 13px; margin: 12px 0 9px; overflow-wrap: anywhere; text-decoration: none; }
+    .champion .username:hover { text-decoration: underline; }
+    .champion .number { font-size: 28px; font-weight: 800; color: #ff727b; }
+    .champion.first .number { color: #f2cf81; font-size: 33px; }
+    .champion .unit { color: #c5cfdb; font-size: 12px; }
+    .list-heading { font-weight: 800; font-size: 17px; margin: 28px 0 14px; }
+    .person { display: flex; align-items: center; gap: 14px; padding: 15px; margin-bottom: 10px; background: #fff; border: 1px solid #e6eaf0; border-radius: 12px; box-shadow: 0 3px 12px #17213608; }
+    .rank { width: 32px; font-size: 18px; font-weight: 800; color: #69758a; text-align: center; flex-shrink: 0; }
+    .person img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #e6eaf0; flex-shrink: 0; }
+    .name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+    .name a { color: #1d2b41; font-weight: 700; text-decoration: none; }
+    .name a:hover { color: #dc3545; text-decoration: underline; }
+    .count { font-weight: 800; color: #dc3545; white-space: nowrap; font-size: 13px; }
+    .notice { color: #69758a; font-size: 13px; text-align: center; margin-top: 25px; }
+    @media (max-width: 600px) {
+      main.leaderboard-page { margin-top: 35px; padding: 0 12px; }
+      .podium { gap: 7px; }
+      .champion { border-radius: 13px; padding: 15px 5px; }
+      .champion.first { padding: 20px 5px; }
+      .champion img { width: 48px; height: 48px; }
+      .champion.first img { width: 57px; height: 57px; }
+      .champion .username { font-size: 11px; }
+      .champion .number { font-size: 23px; }
+      .champion.first .number { font-size: 27px; }
+      .champion .position { font-size: 9px; }
+      .person { gap: 9px; padding: 11px 9px; }
+      .person img { width: 37px; height: 37px; }
+      .count { font-size: 12px; }
     }
   </style>
-  <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-</head>
-<body>
-  
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
   <div class="container px-5">
-    <a class="navbar-brand" href="index.html">
-      <span class="fw-bolder text-primary">ISML AKYL</span>
-    </a>
-    <button class="navbar-toggler" type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand" href="index.html"><span class="fw-bolder text-primary">ISML AKYL</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Menüyü aç"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
         <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
@@ -117,133 +73,142 @@ main.container {
     </div>
   </div>
 </nav>
+<main class="leaderboard-page">
+  <h1 class="page-title">🏆 YORUM LİDERLERİ</h1>
+  <p class="subtitle">ISML AKYL YouTube topluluğu</p>
+  <div class="tabs">
+    <button id="monthly" class="active" type="button" aria-pressed="true">📅 Bu Ay</button>
+    <button id="alltime" type="button" aria-pressed="false">🏆 Genel Sıralama</button>
+  </div>
+  <p id="status" role="status">Yorumlar yükleniyor...</p>
+  <div id="leaderboard"></div>
+  <p class="notice">Sıralama, son 50 YouTube videosundaki kayıtlı izleyici yorumlarına göre hazırlanır.</p>
+</main>
+<script>
+  let data = null;
+  let selected = 'monthlyLeaderboard';
+  const list = document.getElementById('leaderboard');
+  const status = document.getElementById('status');
+  const monthly = document.getElementById('monthly');
+  const alltime = document.getElementById('alltime');
 
-  <main class="container">
-    <h1>🏆 YORUM LİDERLERİ</h1>
-    <p class="subtitle">ISML AKYL YouTube topluluğu</p>
+  function makeAvatar(user) {
+    const avatar = document.createElement('img');
+    avatar.src = user.avatar || '';
+    avatar.alt = (user.name || 'Kullanıcı') + ' profil fotoğrafı';
+    avatar.loading = 'lazy';
+    avatar.referrerPolicy = 'no-referrer';
+    return avatar;
+  }
 
-    <div class="tabs">
-      <button id="monthly" class="active">📅 Bu Ay</button>
-      <button id="alltime">🏆 Genel Sıralama</button>
-    </div>
-
-    <p id="status">Yorumlar yükleniyor...</p>
-    <div id="leaderboard"></div>
-
-    <p class="notice">
-      Test sürümü: Şimdilik son 5 videodaki
-      yorumlar hesaplanmaktadır.
-    </p>
-  </main>
-
-  <script>
-    let data = null;
-    let selected = "monthlyLeaderboard";
-
-    const list = document.getElementById("leaderboard");
-    const status = document.getElementById("status");
-    const monthly = document.getElementById("monthly");
-    const alltime = document.getElementById("alltime");
-
-    function render() {
-      list.replaceChildren();
-
-      const users = data?.[selected] || [];
-
-      status.textContent = users.length
-        ? ""
-        : "Henüz bu sıralamada yorum bulunamadı.";
-
-      users.forEach((user, index) => {
-        const row = document.createElement("div");
-        row.className = "person";
-
-        const rank = document.createElement("span");
-        rank.className = "rank";
-
-rank.textContent = ["🥇", "🥈", "🥉"][index] || index + 1;
-
-        const avatar = document.createElement("img");
-        avatar.src = user.avatar || "";
-        avatar.alt = "";
-
-        const name = document.createElement("div");
-        name.className = "name";
-
-        const link = document.createElement("a");
-        link.textContent = user.name || "YouTube kullanıcısı";
-        if (user.channelId) {
-          link.href = "https://www.youtube.com/channel/" +
-            encodeURIComponent(user.channelId);
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-        }
-        name.appendChild(link);
-
-        const count = document.createElement("span");
-        count.className = "count";
-        count.textContent = user.comments + " yorum";
-
-        row.append(rank, avatar, name, count);
-        list.appendChild(row);
-      });
+  function makeName(user, className) {
+    const name = document.createElement('a');
+    if (className) name.className = className;
+    name.textContent = user.name || 'YouTube kullanıcısı';
+    if (user.channelId) {
+      name.href = 'https://www.youtube.com/channel/' + encodeURIComponent(user.channelId);
+      name.target = '_blank';
+      name.rel = 'noopener noreferrer';
     }
+    return name;
+  }
 
-    monthly.onclick = () => {
-      selected = "monthlyLeaderboard";
-      monthly.classList.add("active");
-      alltime.classList.remove("active");
-      if (data) render();
-    };
+  function render() {
+    list.replaceChildren();
+    const users = data?.[selected] || [];
+    status.textContent = users.length ? 'Sıralama güncellendi.' : 'Henüz bu sıralamada yorum bulunamadı.';
+    if (!users.length) return;
 
-    alltime.onclick = () => {
-      selected = "leaderboard";
-      alltime.classList.add("active");
-      monthly.classList.remove("active");
-      if (data) render();
-    };
+    const podium = document.createElement('div');
+    podium.className = 'podium';
+    const podiumOrder = [1, 0, 2];
+    podiumOrder.forEach(index => {
+      const user = users[index];
+      if (!user) return;
+      const card = document.createElement('div');
+      card.className = 'champion ' + ['first', 'second', 'third'][index];
+      const medal = document.createElement('div');
+      medal.className = 'medal';
+      medal.textContent = ['🥇', '🥈', '🥉'][index];
+      const position = document.createElement('div');
+      position.className = 'position';
+      position.textContent = (index + 1) + '. SIRA';
+      const name = makeName(user, 'username');
+      const number = document.createElement('div');
+      number.className = 'number';
+      number.textContent = Number(user.comments || 0).toLocaleString('tr-TR');
+      const unit = document.createElement('div');
+      unit.className = 'unit';
+      unit.textContent = 'yorum';
+      card.append(medal, position, makeAvatar(user), name, number, unit);
+      podium.appendChild(card);
+    });
+    list.appendChild(podium);
 
-    
-    (async () => {
-      try {
-        let pageToken = null;
-        let result;
-        let pages = 0;
+    if (users.length > 3) {
+      const heading = document.createElement('h2');
+      heading.className = 'list-heading';
+      heading.textContent = 'Diğer Katılımcılar';
+      list.appendChild(heading);
+    }
+    users.slice(3).forEach((user, index) => {
+      const row = document.createElement('div');
+      row.className = 'person';
+      const rank = document.createElement('span');
+      rank.className = 'rank';
+      rank.textContent = index + 4;
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.appendChild(makeName(user));
+      const count = document.createElement('span');
+      count.className = 'count';
+      count.textContent = user.comments + ' yorum';
+      row.append(rank, makeAvatar(user), name, count);
+      list.appendChild(row);
+    });
+  }
 
-        do {
-          const url = pageToken
-            ? `/api/leaderboard?pageToken=${encodeURIComponent(pageToken)}`
-            : "/api/leaderboard";
+  monthly.onclick = () => {
+    selected = 'monthlyLeaderboard';
+    monthly.classList.add('active');
+    alltime.classList.remove('active');
+    monthly.setAttribute('aria-pressed', 'true');
+    alltime.setAttribute('aria-pressed', 'false');
+    if (data) render();
+  };
+  alltime.onclick = () => {
+    selected = 'leaderboard';
+    alltime.classList.add('active');
+    monthly.classList.remove('active');
+    alltime.setAttribute('aria-pressed', 'true');
+    monthly.setAttribute('aria-pressed', 'false');
+    if (data) render();
+  };
 
-          const response = await fetch(url);
-
-          if (!response.ok) {
-            throw new Error("API hatası");
-          }
-
-          result = await response.json();
-
-          if (result.error) {
-            throw new Error(result.error);
-          }
-
-          data = result;
-          pages++;
-
-          status.textContent = `Yorumlar taranıyor... (${pages} sayfa)`;
-          pageToken = result.nextPageToken;
-        } while (pageToken);
-
-        render();
-        status.textContent = "Sıralama güncellendi.";
-      } catch (error) {
-        status.textContent = "Sıralama yüklenemedi: " + error.message;
-      }
-    })();
-
-  </script>
-  
+  (async () => {
+    try {
+      let pageToken = null;
+      let result;
+      let pages = 0;
+      do {
+        const url = pageToken
+          ? `/api/leaderboard?pageToken=${encodeURIComponent(pageToken)}`
+          : '/api/leaderboard';
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('API hatası');
+        result = await response.json();
+        if (result.error) throw new Error(result.error);
+        data = result;
+        pages++;
+        status.textContent = `Yorumlar taranıyor... (${pages} sayfa)`;
+        pageToken = result.nextPageToken;
+      } while (pageToken);
+      render();
+    } catch (error) {
+      status.textContent = 'Sıralama yüklenemedi: ' + error.message;
+    }
+  })();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
