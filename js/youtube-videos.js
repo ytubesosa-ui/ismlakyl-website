@@ -57,8 +57,7 @@ title.style.marginBottom = "15px";
       button.target = "_blank";
       button.rel = "noopener noreferrer";
       button.className = "btn btn-primary";
-      button.textContent = "WATCH VIDEO";
-
+      button.textContent = "VİDEOYU İZLE";
       link.appendChild(img);
 		body.appendChild(title);
       body.appendChild(button);
