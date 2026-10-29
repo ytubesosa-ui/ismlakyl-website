@@ -118,8 +118,8 @@ async function checkYouTubeLive() {
   const button = document.querySelector('a[href="https://www.youtube.com/@ismlakyl/live"]');
 
   try {
-    const response = await fetch("/.netlify/functions/youtube-live");
-    if (!response.ok) throw new Error("API error");
+const response = await fetch("/api/youtube-live");
+	  if (!response.ok) throw new Error("API error");
 
     const data = await response.json();
 
