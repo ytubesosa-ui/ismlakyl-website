@@ -67,50 +67,6 @@ body:has(.navbar-collapse.show) main > :not(nav),  body:has(.navbar-collapse.sho
 
   
 
-.subscribe-3d {
-  position: relative;
-  overflow: hidden;
-  color: white !important;
-  background: linear-gradient(135deg, #ff3434, #c90000) !important;
-  border: none;
-  box-shadow: 0 6px 0 #8b0000, 0 10px 20px rgba(220,0,0,.25);
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-
-.btn.subscribe-3d:hover {
-  color: white !important;
-  background: linear-gradient(135deg, #ff4545, #e00000) !important;
-  transform: translateY(-6px) scale(1.06) !important;
-  box-shadow: 0 12px 0 #8b0000, 0 20px 30px rgba(220,0,0,.4) !important;
-}
-
-.btn.subscribe-3d:active {
-  transform: translateY(3px) !important;
-  box-shadow: 0 2px 0 #8b0000 !important;
-}
-
-.subscribe-3d::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
-  transform: translateX(-150%);
-  animation: subscribe-shine 4s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes subscribe-shine {
-  0%, 65% { transform: translateX(-150%); }
-  100% { transform: translateX(150%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .subscribe-3d,
-  .subscribe-3d::after {
-    animation: none !important;
-    transition: none !important;
-  }
-}
 
 		</style>
     </head>
