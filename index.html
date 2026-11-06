@@ -277,6 +277,25 @@ class="btn btn-danger fw-bolder"       style="width:145px; padding:15px 5px; whi
       </div>
     </div>
   </div>
+	
+<div class="container mt-4">
+  <div class="bg-light rounded-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <strong>🎯 3.000 Abone Hedefi</strong>
+      <span id="sub-goal-text">0 / 3.000</span>
+    </div>
+    <div class="progress rounded-pill" style="height: 14px;">
+      <div id="sub-goal-bar"
+           class="progress-bar"
+           style="width: 0%; background: linear-gradient(90deg, #304ffe, #d81b90);">
+      </div>
+    </div>
+    <p class="small text-muted mt-2 mb-0" id="sub-goal-remaining">
+      Abone sayısı yükleniyor...
+    </p>
+  </div>
+</div>
+
 </section>
 
             <!-- About Section-->
@@ -364,6 +383,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("stat-videos").textContent =
       format(stats.videos);
+	  
+const goal = 3000;
+const subscribers = Number(stats.subscribers);
+
+if (stats.subscribers !== null && Number.isFinite(subscribers)) {
+  const percentage = Math.min((subscribers / goal) * 100, 100);
+  const remaining = Math.max(goal - subscribers, 0);
+
+  document.getElementById("sub-goal-text").textContent =
+    format(subscribers) + " / " + format(goal);
+
+  document.getElementById("sub-goal-bar").style.width =
+    percentage + "%";
+
+  document.getElementById("sub-goal-remaining").textContent =
+    remaining > 0
+      ? "Hedefe " + format(remaining) + " abone kaldı! 🚀"
+      : "🎉 3.000 abone hedefine ulaştık!";
+}
+
 
   } catch (error) {
     console.error("YouTube istatistik hatası:", error);
