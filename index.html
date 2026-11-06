@@ -64,28 +64,29 @@ body:has(.navbar-collapse.show) main > :not(nav),  body:has(.navbar-collapse.sho
   }
 }
 
+
+  
+
 .subscribe-3d {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #ff3434, #c90000);
+  color: white !important;
+  background: linear-gradient(135deg, #ff3434, #c90000) !important;
   border: none;
-  color: white;
-  box-shadow: 0 6px 0 #8b0000, 0 10px 20px rgba(220, 0, 0, .25);
+  box-shadow: 0 6px 0 #8b0000, 0 10px 20px rgba(220,0,0,.25);
   transition: transform .25s ease, box-shadow .25s ease;
 }
 
 .btn.subscribe-3d:hover {
-  background: linear-gradient(135deg, #ff4545, #e00000) !important;
   color: white !important;
+  background: linear-gradient(135deg, #ff4545, #e00000) !important;
   transform: translateY(-6px) scale(1.06) !important;
-  box-shadow: 0 12px 0 #8b0000, 0 20px 30px rgba(220, 0, 0, .4) !important;
+  box-shadow: 0 12px 0 #8b0000, 0 20px 30px rgba(220,0,0,.4) !important;
 }
 
-
-
-.subscribe-3d:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #8b0000;
+.btn.subscribe-3d:active {
+  transform: translateY(3px) !important;
+  box-shadow: 0 2px 0 #8b0000 !important;
 }
 
 .subscribe-3d::after {
@@ -104,9 +105,10 @@ body:has(.navbar-collapse.show) main > :not(nav),  body:has(.navbar-collapse.sho
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .subscribe-3d, .subscribe-3d::after {
-    animation: none;
-    transition: none;
+  .subscribe-3d,
+  .subscribe-3d::after {
+    animation: none !important;
+    transition: none !important;
   }
 }
 
