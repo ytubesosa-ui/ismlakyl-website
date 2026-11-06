@@ -63,7 +63,51 @@ body:has(.navbar-collapse.show) main > :not(nav),  body:has(.navbar-collapse.sho
     display: none !important;
   }
 }
-</style>
+
+.subscribe-3d {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff3434, #c90000);
+  border: none;
+  color: white;
+  box-shadow: 0 6px 0 #8b0000, 0 10px 20px rgba(220, 0, 0, .25);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.subscribe-3d:hover {
+  color: white;
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 10px 0 #8b0000, 0 16px 26px rgba(220, 0, 0, .3);
+}
+
+.subscribe-3d:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #8b0000;
+}
+
+.subscribe-3d::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
+  transform: translateX(-150%);
+  animation: subscribe-shine 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes subscribe-shine {
+  0%, 65% { transform: translateX(-150%); }
+  100% { transform: translateX(150%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subscribe-3d, .subscribe-3d::after {
+    animation: none;
+    transition: none;
+  }
+}
+
+		</style>
     </head>
     <body class="d-flex flex-column h-100">
         <main class="flex-shrink-0">
@@ -301,7 +345,8 @@ class="btn btn-danger fw-bolder"       style="width:145px; padding:15px 5px; whi
   <a href="https://www.youtube.com/@ismlakyl?sub_confirmation=1"
      target="_blank"
      rel="noopener noreferrer"
-     class="btn btn-danger rounded-pill px-4 py-2 fw-bold">
+
+class="btn btn-danger subscribe-3d rounded-pill px-4 py-2 fw-bold"
     ▶ YouTube'a Abone Ol
   </a>
 </div>
